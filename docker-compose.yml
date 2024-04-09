@@ -1,0 +1,36 @@
+version: '3'
+services:
+  mern_stack:
+    container_name: mern_web
+    privileged: true
+    build: .
+    ports:
+      - 81:80
+      - 3000:3000
+      - 3001:3001
+    volumes:
+      - ./app:/app/script
+    links:
+            - 'redisdblink'
+    depends_on:
+      - redisdblink
+
+  redisdblink:
+    image: redis:latest
+    ports:
+      - 6379:6379 
+  # Mongoadmin:
+  #   image: mongo-express
+  #   container_name: mern_stack_phpmyadmin
+  #   environment:
+  #       - PMA_ARBITRARY=1
+  #   restart: always
+  #   ports:
+  #       - 8081:8081
+  #   volumes:
+  #       - /sessions
+  #   links:
+  #       - 'mern_stack'
+
+volumes:
+    redisdblink:
